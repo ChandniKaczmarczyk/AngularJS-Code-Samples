@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html ng-app="gemStore">
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+  </head>
+  <body class="list-group" ng-controller="StoreController as store">
+    <header>
+      <h1 class="text-center">Crafted Gems Store</h1>
+    </header>
+
+<div class="container">
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-10">
+
+    <div ng-repeat="product in store.products">
+      <h3>
+        {{product.name}}
+        <em class="pull-right">{{product.price | currency}}</em>
+      </h3>
+
+<!-- Image Gallery  -->
+      <div class='gallery' ng-show="product.images.length" ng-controller='GalleryController as gallery'>
+        <ul class="list-inline thumbs">
+          <li class="thumbnail" ng-repeat="image in product.images">
+            <img ng-src="{{image}}" />
+          </li>
+        </ul>
+      </div>
+
+      <section class="tab" ng-controller='TabController as tab'>
+        <ul class="nav nav-pills">
+          <li ng-class='{active:tab.isSet(1)}'>
+            <a href ng-click='tab.setTab(1)'>Description</a></li>
+          <li ng-class='{active:tab.isSet(2)}'>
+            <a href ng-click='tab.setTab(2)'>Specifications</a></li>
+          <li ng-class='{active:tab.isSet(3)}'>
+            <a href ng-click='tab.setTab(3)'>Reviews</a></li>
+        </ul>
+        <div ng-show='tab.isSet(1)'>
+          <h4>Description</h4>
+          <blockquote>{{product.description}}</blockquote>
+        </div>
+        <div ng-show='tab.isSet(2)'>
+         <h4>Specifications</h4>
+            <ul class="list-unstyled">
+              <li>
+                <strong>Shine</strong>
+                : {{product.shine}}</li>
+              <li>
+                <strong>Faces</strong>
+                : {{product.faces}}</li>
+              <li>
+                <strong>Rarity</strong>
+                : {{product.rarity}}</li>
+              <li>
+                <strong>Color</strong>
+                : {{product.color}}</li>
+            </ul> 
+        </div>
+        <div ng-show='tab.isSet(3)'>
+          <h4>Reviews</h4>
+          <blockquote ng-repeat='review in product.reviews'>
+          <b>Stars: {{review.stars}}</b>
+          {{review.body}}
+          <cite>-{{review.author}}</cite>
+          </blockquote>
+
+<!--  Review Form -->
+            <form name="reviewForm" ng-controller='ReviewController as ReviewCtrl' 
+            ng-submit="reviewForm.$valid && ReviewCtrl.addReview(product)" novalidate>
+              <!--  Live Preview -->
+              <blockquote>
+                <strong>{{ReviewCtrl.review.stars}} Stars</strong>
+                {{ReviewCtrl.review.body}}
+                <cite class="clearfix">{{ReviewCtrl.review.author}}</cite>
+              </blockquote>
+
+              <!--  Review Form -->
+              <h4>Submit a Review</h4>
+              <fieldset class="form-group">
+                <select ng-model='ReviewCtrl.review.stars' class="form-control" ng-options="stars for stars in [5,4,3,2,1]"  title="Stars" required>
+                  <option value="">Rate the Product</option>
+                </select>
+              </fieldset>
+              <fieldset class="form-group">
+                <textarea ng-model='ReviewCtrl.review.body' class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
+              </fieldset>
+              <fieldset class="form-group">
+                <input ng-model='ReviewCtrl.review.author' type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email"  required/>
+              </fieldset>
+              <fieldset class="form-group">
+                <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
+              </fieldset>
+            </form>
+        </div>
+      </section>
+    </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+</div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="Controllers.js"></script>
+  </body>
+</html>

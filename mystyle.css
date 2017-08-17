@@ -1,0 +1,30 @@
+img{
+	width:200px;
+	height: 200px;
+}
+
+body
+{
+	background-color: black;
+}
+
+h1 ,h2{
+	color:#e80a89;
+}
+
+h3,h4,blockquote ,ul
+{
+	color: #e6e6e6;
+}
+.ng-invalid.ng-dirty{
+	border-color: red;
+}
+
+.ng-valid.ng-dirty{
+	border-color: green;
+}
+
+.list-group-item
+{
+	background-color: black;
+}
